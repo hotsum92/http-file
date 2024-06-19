@@ -4,38 +4,21 @@ import (
 	"archive/zip"
 	"bytes"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	//dump, err := httputil.DumpRequest(r, true)
 
-	//if err != nil {
-	//	http.Error(w, fmt.Sprint(err), http.StatusInternalServerError)
-	//	return
-	//}
-
-	mr, _ := r.MultipartReader()
-	for {
-		p, err := mr.NextPart()
-		if err == io.EOF {
-			break
-		}
-
-		fmt.Println(p.FormName(), ":", p.FileName(), p.Header.Get("Content-Type"))
-
-		// ファイルを読み込む
-		buf, err := ioutil.ReadAll(p)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		unzip(buf)
-
+	buf, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	log.Println("content-type: ", r.Header.Get("Content-Type"))
+
+	unzip(buf)
 }
 
 func unzip(file []byte) {
