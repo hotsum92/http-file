@@ -1,3 +1,3 @@
 #!/bin/bash -eu
 
-curl -X POST -F "file=@./data.zip" -H "Content-Type: application/zip" localhost:18888
+gzip -c ./data/sample.json | curl -X POST --data-binary @- -H "Content-Encoding: gzip" -H "Content-Type: application/json" localhost:18888
