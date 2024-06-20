@@ -9,6 +9,9 @@ import (
 
 func handler(w http.ResponseWriter, r *http.Request) {
 
+	println("Content-Encoding: ", r.Header.Get("Content-Encoding"))
+	println("Content-Type: ", r.Header.Get("Content-Type"))
+
 	reader, err := gzip.NewReader(r.Body)
 	if err != nil {
 		log.Fatal(err)

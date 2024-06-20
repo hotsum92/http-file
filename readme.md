@@ -4,10 +4,12 @@ go httpでzipを扱うためのサンプル
 
 ## run
 
+### gzip body
+
 ###### サーバーを実行
 
 ```
-go run .
+go run main-gzip-body.go
 ```
 
 ###### リクエストを送信
