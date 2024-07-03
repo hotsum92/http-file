@@ -1,10 +1,8 @@
 package main
 
 import (
-	"archive/zip"
-	"bytes"
-	"fmt"
-	"io/ioutil"
+	"compress/gzip"
+	"io"
 	"log"
 	"net/http"
 )
@@ -13,36 +11,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	println("Content-Encoding: ", r.Header.Get("Content-Encoding"))
 	println("Content-Type: ", r.Header.Get("Content-Type"))
+	println("Content-Disposition: ", r.Header.Get("Content-Disposition"))
 
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer r.Body.Close()
-
-	//println("body: ", string(body))
-
-	reader, err := zip.NewReader(bytes.NewReader(body), int64(len(body)))
+	buf, err := gzip.NewReader(r.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, f := range reader.File {
-		rc, err := f.Open()
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer rc.Close()
-
-		fmt.Println("fileName: ", f.Name)
-
-		buf, err := ioutil.ReadAll(rc)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println("fileContent: ", string(buf))
+	all, err := io.ReadAll(buf)
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	println(string(all))
 }
 
 func main() {

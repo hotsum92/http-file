@@ -41,6 +41,8 @@ go run cmd/zip-file-body/main.go
 ```
 curl -X POST -F "file=@./data.zip" -H "Content-Type: application/zip" localhost:18888
 ```
+curl -v -F "file=@./data.zip" -H "Content-Type: application/zip" localhost:18888
+curl -v -F "file=@./data.zip" localhost:18888
 
 ###### ログの確認 中身を確認取得できていることがわかる
 
@@ -85,4 +87,18 @@ fileContent:  {
   "key01": "value01",
   "key02": "value02"
 }
+```
+
+### gzip file body
+
+###### サーバーを実行
+
+```
+go run cmd/gzip-file-body/main.go
+```
+
+###### リクエストを送信
+
+```
+curl -v --data-binary "@./sample.json.gz" -H "Content-Type: application/x-gzip" localhost:18888
 ```
