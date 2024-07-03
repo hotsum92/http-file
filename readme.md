@@ -2,6 +2,8 @@
 
 go httpでzipを扱うためのサンプル
 
+[curlのオプション--data, --data-binary, --data-raw, --data-urlencodeの違い #curl - Qiita](https://qiita.com/aosho235/items/d89bb027db0c5662d8c5)
+
 ## run
 
 ### gzip body
